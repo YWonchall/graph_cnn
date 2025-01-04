@@ -1,0 +1,1 @@
+python regre_test.py -M '1234.pth' -I './test.csv' -O './results/regression/myTest.txt'
