@@ -4,9 +4,9 @@ import torch
 from torch_geometric.data import DataLoader
 import torch.optim as optim
 
-from smiles_to_graph import mol2vec
-from smiles_to_graph import make_regre_mol
-from smiles_to_graph import make_regre_vec
+from utils.smiles_to_graph import mol2vec
+from utils.smiles_to_graph import make_regre_mol
+from utils.smiles_to_graph import make_regre_vec
 import model
 
 

@@ -91,14 +91,16 @@ class FClayer(nn.Module):
         self.fc4 = Linear(self.pred_dim3, self.out_dim)
     
     def forward(self, data):
-        x = F.relu(self.fc1(data))
-        x = self.bn1(x)
-        x = F.relu(self.fc2(x))
-        x = self.bn2(x)
-        x = F.relu(self.fc3(x))
-        x = F.dropout(x, p=self.dropout, training=self.training)
-        x = self.fc4(x)
-        return x
+        x1 = F.relu(self.fc1(data))
+        x1 = self.bn1(x1)
+        
+        x2 = F.relu(self.fc2(x1))
+        x2 = self.bn2(x2)
+        
+        x3 = F.relu(self.fc3(x2))
+        x3 = F.dropout(x3, p=self.dropout, training=self.training)
+        x_out = self.fc4(x3)
+        return x_out
 
 class Net(nn.Module):
     def __init__(self, args):
@@ -113,22 +115,19 @@ class Net(nn.Module):
                               concat_dim, 
                               self.dropout, 
                               self.conv)
-        self.conv2 = GCNlayer(n_features, 
-                              conv_dim1, 
-                              conv_dim2, 
-                              conv_dim3, 
-                              concat_dim, 
-                              self.dropout, 
-                              self.conv)
+
         self.fc = FClayer(concat_dim, 
                           pred_dim1, 
                           pred_dim2, 
                           pred_dim3, 
                           out_dim, 
                           self.dropout)
-        
+        if args.pretrain_path:
+            checkpoint = torch.load(args.pretrain_path)
+            self.load_state_dict(checkpoint["State_dict"])
+
     def forward(self, solute, device):
-        x1 = self.conv1(solute, device)
+        x1 = self.conv1(solute, device).detach()
         #x2 = self.conv2(solvent, device)
         x = torch.cat((x1,), dim=1)
         x = self.fc(x)
