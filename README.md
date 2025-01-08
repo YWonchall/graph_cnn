@@ -1,11 +1,28 @@
-# Solubility_Prediction_GCN
+# graph cnn
+## 1. 实验结果
+### 1.1 big_data_set
+| model         | MAE    | MSE    | R2     | epoch | lr    | feat_dim |
+|---------------|--------|--------|--------|-------|-------|----------|
+| xgboost       | 0.3153 | 0.3918 | 0.9338 |       |       | 128      |
+| svm           | 0.3539 | 0.5446 | 0.9080 |       |       | 128      |
+| random forest | 0.2734 | 0.4153 | 0.9299 |       |       | 128      |
+| gnn           | 0.1149 | 0.1186 | 0.9800 | 128   | 0.005 |          |
 
-<img src="https://github.com/mhlee216/Solubility_Prediction_GCN/blob/main/main.png">
 
-#### Novel Solubility Prediction Models: Molecular Fingerprints and Physicochemical Features vs Graph Convolutional Neural Networks
+### 1.2 kinase_final_data
+| model         | MAE    | MSE    | R2     | epoch | lr    | feat_dim |
+|---------------|--------|--------|--------|-------|-------|----------|
+| xgboost       | 0.7055 | 0.8847 | 0.6321 |       |       | 128      |
+| random forest | 0.7159 | 0.9213 | 0.6169 |       |       | 128      |
+| svm           | 0.6972 | 0.8931 | 0.6286 |       |       | 128      |
+| gnn           | 0.6605 | 0.8153 | 0.6610 | 128   | 0.005 |          |
 
-<a href="https://doi.org/10.1021/acsomega.2c00697">https://doi.org/10.1021/acsomega.2c00697</a>
-
-Sumin Lee<sup>+</sup>, Myeonghun Lee<sup>+</sup>, Ki-Won Gyak, Sung Dug Kim, Mi-Jeong Kim\*, and Kyoungmin Min\*
-
-ACS Omega
+### 1.2 BIT
+| model                   | MAE    | MSE    | R2     | epoch | lr    | feat_dim | bs |
+|-------------------------|--------|--------|--------|-------|-------|----------|----|
+| xgboost                 | 0.4902 | 0.4614 | 0.6823 |       |       | 128      |
+| random forest           | 0.4859 | 0.4308 | 0.7034 |       |       | 128      |
+| svm                     | 0.4692 | 0.3508 | 0.7585 |       |       | 128      |
+| gnn                     | 0.4467 | 0.3241 | 0.7769 | 256   | 0.005 |          | 64 |
+| gnn + finetune           | 0.4015 | 0.2592 | 0.8216 | 128   | 0.005 |          | 64 |
+| gnn + finetune + freeze  | 0.3741 | 0.2319 | 0.8403 | 128   | 0.05  |          | 64 |
